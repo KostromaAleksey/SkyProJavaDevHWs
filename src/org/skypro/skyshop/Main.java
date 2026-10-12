@@ -1,16 +1,19 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 
 public class Main {
     public static void main(String[] args) {
-        Product product1 = new Product("apple", 5);
-        Product product2 = new Product("brad", 2);
-        Product product3 = new Product("egg", 10);
-        Product product4 = new Product("oil", 111);
-        Product product5 = new Product("paper", 56);
-        Product product6 = new Product("cup", 250);
+        Product product1 = new SimpleProduct("apple", 5);
+        Product product2 = new FixPriceProduct("brad");
+        Product product3 = new DiscountedProduct("egg", 10, 5);
+        Product product4 = new DiscountedProduct("oil", 111, 40);
+        Product product5 = new FixPriceProduct("paper");
+        Product product6 = new SimpleProduct("cup", 250);
 
         ProductBasket productBasket = new ProductBasket();
 
@@ -23,7 +26,7 @@ public class Main {
 
         productBasket.print();
 
-        System.out.println("Стоимость корзины: " + productBasket.getCost());
+        System.out.println("Стоимость корзины: " + productBasket.getPrice());
 
         System.out.println("В корзине есть apple: " + productBasket.isProductExist("apple"));
 
@@ -33,7 +36,7 @@ public class Main {
 
         productBasket.print();
 
-        System.out.println("Стоимость корзины: " + productBasket.getCost());
+        System.out.println("Стоимость корзины: " + productBasket.getPrice());
 
         System.out.println("В корзине есть apple: " + productBasket.isProductExist("apple"));
     }

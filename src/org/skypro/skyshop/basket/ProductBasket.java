@@ -22,29 +22,34 @@ public class ProductBasket {
         }
     }
 
-    public int getCost() {
-        int cost = 0;
+    public double getPrice() {
+        double price = 0;
         for (Product product : basket) {
             if (product != null) {
-                cost += product.getCost();
+                price += product.getPrice();
             }
         }
-        return cost;
+        return price;
     }
 
     public void print() {
         boolean isPrint = false;
+        int specialProductCount = 0;
         for (Product product : basket) {
             if (product != null) {
                 System.out.println(product);
                 isPrint = true;
+                if (product.isSpecial()) {
+                    specialProductCount++;
+                }
             }
         }
         if (isPrint) {
-            System.out.println("Итого: " + getCost());
+            System.out.println("Итого: " + getPrice());
         } else {
             System.out.println("В корзине пусто");
         }
+        System.out.println("Специальных товаров: " + specialProductCount);
     }
 
     public boolean isProductExist(String name) {
