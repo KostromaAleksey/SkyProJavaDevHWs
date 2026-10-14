@@ -16,6 +16,7 @@ public class DiscountedProduct extends Product {
         return price * ((100 - discount) / 100d);
     }
 
+    @Override
     public String toString() {
         return getName() + ": " + price + " (" + discount + "%)";
     }
