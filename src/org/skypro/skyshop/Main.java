@@ -1,10 +1,14 @@
 package org.skypro.skyshop;
 
-import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
+
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,29 +19,30 @@ public class Main {
         Product product5 = new FixPriceProduct("paper");
         Product product6 = new SimpleProduct("cup", 250);
 
-        ProductBasket productBasket = new ProductBasket();
+        SearchEngine searchEngine = new SearchEngine(10);
 
-        productBasket.addProduct(product1);
-        productBasket.addProduct(product2);
-        productBasket.addProduct(product3);
-        productBasket.addProduct(product4);
-        productBasket.addProduct(product5);
-        productBasket.addProduct(product6);
+        searchEngine.add(product1);
+        searchEngine.add(product2);
+        searchEngine.add(product3);
+        searchEngine.add(product4);
+        searchEngine.add(product5);
+        searchEngine.add(product6);
 
-        productBasket.print();
+        Article article1 = new Article("article1", "article1Text");
+        Article article2 = new Article("article2", "article2Text");
+        Article article3 = new Article("article3", "article3Text");
 
-        System.out.println("Стоимость корзины: " + productBasket.getPrice());
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
 
-        System.out.println("В корзине есть apple: " + productBasket.isProductExist("apple"));
+        System.out.println(Arrays.toString(searchEngine.search("article")));
+        System.out.println(Arrays.toString(searchEngine.search("brad")));
+        System.out.println(Arrays.toString(searchEngine.search("a")));
+        System.out.println(Arrays.toString(searchEngine.search("ttt")));
 
-        System.out.println("В корзине есть orange: " + productBasket.isProductExist("orange"));
-
-        productBasket.clear();
-
-        productBasket.print();
-
-        System.out.println("Стоимость корзины: " + productBasket.getPrice());
-
-        System.out.println("В корзине есть apple: " + productBasket.isProductExist("apple"));
+        for (Searchable searchable : searchEngine.search("a")) {
+            System.out.println(searchable.getStringRepresentation());
+        }
     }
 }

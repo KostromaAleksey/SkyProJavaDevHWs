@@ -13,6 +13,7 @@ public class FixPriceProduct extends Product {
         return PRICE;
     }
 
+    @Override
     public String toString() {
         return getName() + ": Фиксированная цена " + PRICE;
     }
