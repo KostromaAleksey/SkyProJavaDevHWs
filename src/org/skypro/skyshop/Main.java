@@ -1,17 +1,31 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
+import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
-import org.skypro.skyshop.search.Searchable;
-
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        try {
+            new SimpleProduct("apple", -5);
+        } catch (IllegalArgumentException exc) {
+            System.out.println(exc);
+        }
+        try {
+            new FixPriceProduct("");
+        } catch (IllegalArgumentException exc) {
+            System.out.println(exc);
+        }
+        try {
+            new DiscountedProduct("egg", 10, 555);
+        } catch (IllegalArgumentException exc) {
+            System.out.println(exc);
+        }
+
         Product product1 = new SimpleProduct("apple", 5);
         Product product2 = new FixPriceProduct("brad");
         Product product3 = new DiscountedProduct("egg", 10, 5);
@@ -36,13 +50,12 @@ public class Main {
         searchEngine.add(article2);
         searchEngine.add(article3);
 
-        System.out.println(Arrays.toString(searchEngine.search("article")));
-        System.out.println(Arrays.toString(searchEngine.search("brad")));
-        System.out.println(Arrays.toString(searchEngine.search("a")));
-        System.out.println(Arrays.toString(searchEngine.search("ttt")));
-
-        for (Searchable searchable : searchEngine.search("a")) {
-            System.out.println(searchable.getStringRepresentation());
+        try {
+            System.out.println(searchEngine.searchSingle("a"));
+            System.out.println(searchEngine.searchSingle("err"));
+        } catch (BestResultNotFound exc) {
+            System.out.println(exc);
         }
+
     }
 }
