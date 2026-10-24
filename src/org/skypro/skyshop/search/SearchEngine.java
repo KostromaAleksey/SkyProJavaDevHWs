@@ -2,19 +2,19 @@ package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.exception.BestResultNotFound;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class SearchEngine {
 
     private final LinkedList<Searchable> searchables = new LinkedList<>();
 
-    public List<Searchable> search(String search) {
-        List<Searchable> searched = new ArrayList<>();
+    public Map<String, Searchable> search(String search) {
+        Map<String, Searchable> searched = new TreeMap<>();
         for (Searchable searchable : searchables) {
             if (searchable != null && searchable.getSearchTerm().contains(search)) {
-                searched.add(searchable);
+                searched.put(searchable.getName(), searchable);
             }
         }
         return searched;
