@@ -13,12 +13,14 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Product product1 = new SimpleProduct("apple", 5);
-        Product product2 = new FixPriceProduct("brad");
-        Product product3 = new DiscountedProduct("egg", 10, 5);
-        Product product4 = new DiscountedProduct("oil", 111, 40);
-        Product product5 = new FixPriceProduct("paper");
-        Product product6 = new SimpleProduct("cup", 250);
-        Product product7 = new DiscountedProduct("egg", 10, 5);
+        Product product2 = new SimpleProduct("apple", 6);
+        Product product3 = new FixPriceProduct("brad");
+        Product product4 = new DiscountedProduct("egg", 10, 5);
+        Product product5 = new DiscountedProduct("egg", 11, 6);
+        Product product6 = new DiscountedProduct("oil", 111, 40);
+        Product product7 = new FixPriceProduct("paper");
+        Product product8 = new SimpleProduct("cup", 250);
+        Product product9 = new DiscountedProduct("egg", 10, 5);
 
         ProductBasket productBasket = new ProductBasket();
         productBasket.addProduct(product1);
@@ -28,8 +30,14 @@ public class Main {
         productBasket.addProduct(product5);
         productBasket.addProduct(product6);
         productBasket.addProduct(product7);
+        productBasket.addProduct(product8);
+        productBasket.addProduct(product9);
 
         productBasket.print();
+
+        System.out.println("Есть продукт egg: " + productBasket.isProductExist("egg"));
+        System.out.println("Есть продукт milk: " + productBasket.isProductExist("milk"));
+        System.out.println();
 
         List<Product> removedList = productBasket.deleteProductByName("egg");
         System.out.println("Удаленные продукты: " + removedList);
@@ -38,12 +46,16 @@ public class Main {
         productBasket.print();
 
         removedList = productBasket.deleteProductByName("egg");
-        if (removedList.isEmpty()) {
-            System.out.println("Удаленные продукты: Список пуст " + removedList);
+        if (removedList == null || removedList.isEmpty()) {
+            System.out.println("Удаленные продукты: Список пуст");
         } else {
             System.out.println("Удаленные продукты: " + removedList);
         }
         System.out.println();
+
+        productBasket.print();
+
+        productBasket.clear();
 
         productBasket.print();
 
@@ -56,6 +68,8 @@ public class Main {
         searchEngine.add(product5);
         searchEngine.add(product6);
         searchEngine.add(product7);
+        searchEngine.add(product8);
+        searchEngine.add(product9);
 
         Article article1 = new Article("article1", "article1Text");
         Article article2 = new Article("article2", "article2Text");
