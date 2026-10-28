@@ -5,19 +5,15 @@ import org.skypro.skyshop.exception.BestResultNotFound;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
 
     private final Set<Searchable> searchables = new HashSet<>();
 
     public Set<Searchable> search(String search) {
-        Set<Searchable> searched = new TreeSet<>(new SearchComparator());
-        for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(search)) {
-                searched.add(searchable);
-            }
-        }
-        return searched;
+        return searchables.stream().filter(s -> s != null && s.getSearchTerm().contains(search))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchComparator())));
     }
 
     private int matchCount(String searchTerm, String search) {

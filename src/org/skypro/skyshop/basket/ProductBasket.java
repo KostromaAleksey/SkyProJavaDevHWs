@@ -2,54 +2,37 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductBasket {
 
     private final Map<String, List<Product>> basket = new HashMap<>();
 
     public void addProduct(Product product) {
-        basket.computeIfAbsent(product.getName(), v -> new LinkedList<>()).add(product);
+        basket.computeIfAbsent(product.getName(), _ -> new LinkedList<>()).add(product);
     }
 
     public double getPrice() {
-        double price = 0;
-        for (List<Product> products : basket.values()) {
-            for (Product product : products) {
-                if (product != null) {
-                    price += product.getPrice();
-                }
-            }
-        }
-        return price;
+        return basket.values().stream().flatMap(Collection::stream).mapToDouble(Product::getPrice).sum();
+    }
+
+    private long getSpecialCount(List<Product> products) {
+        return products.stream().filter(Product::isSpecial).count();
     }
 
     public void print() {
         System.out.println("Корзина:");
-        boolean isPrint = false;
-        int specialProductCount = 0;
-        for (List<Product> products : basket.values()) {
-            for (Product product : products) {
-                if (product == null) {
-                    continue;
-                }
-                System.out.println(product);
-                isPrint = true;
-                if (product.isSpecial()) {
-                    specialProductCount++;
-                }
-            }
-        }
+        List<Product> products = basket.values().stream().flatMap(Collection::stream)
+                .filter(Objects::nonNull).toList();
+        products.forEach(System.out::println);
         System.out.println("_______________");
-        if (isPrint) {
-            System.out.println("Итого: " + getPrice());
-        } else {
+        if (products.isEmpty()) {
             System.out.println("В корзине пусто");
+
+        } else {
+            System.out.println("Итого: " + getPrice());
         }
-        System.out.println("Специальных товаров: " + specialProductCount);
+        System.out.println("Специальных товаров: " + getSpecialCount(products));
         System.out.println();
     }
 
